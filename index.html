@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+
+<!-- saved from url=(0014)about:internet -->
+<html lang="ko"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>대시보드 - TubeLab</title>
+<link href="./대시보드 - TubeLab_files/css2" rel="stylesheet"/>
+<link href="./대시보드 - TubeLab_files/common.css" rel="stylesheet"/>
+<link href="./대시보드 - TubeLab_files/all.min.css" rel="stylesheet"/>
+<link href="./대시보드 - TubeLab_files/index.css" rel="stylesheet"/>
+<style>
+        /* 노션 카드 스타일 */
+        .notion-card {
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .notion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #000000;
+        }
+
+        .notion-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
+        .notion-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            height: 100%;
+            position: relative;
+        }
+
+        .notion-icon {
+            flex-shrink: 0;
+        }
+
+        .notion-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .notion-text h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .notion-text p {
+            margin: 0 0 1rem 0;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .notion-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #000;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: gap 0.3s ease;
+        }
+
+        .notion-card:hover .notion-cta {
+            gap: 1rem;
+        }
+
+        /* 리더 배지 */
+        .leader-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: #FFD700;
+            color: #333;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* 그룹 없음 카드 */
+        .no-group-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            background-color: #fafafa;
+            border: 2px dashed #ddd;
+        }
+
+        .no-group-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .no-group-content h3 {
+            margin: 0 0 0.5rem 0;
+            color: #666;
+        }
+
+        .no-group-content p {
+            margin: 0;
+            color: #999;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .notion-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+
+            .notion-logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .notion-text h3 {
+                font-size: 1.2rem;
+            }
+
+            .leader-badge {
+                position: static;
+                display: inline-block;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="has-sidebar">
+<div class="app-container">
+<!-- 헤더 포함 -->
+<style type="text/css">
+    /* ===== 헤더/네비게이션 ===== */
+    .header,
+    .tubelab-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--header-height);
+        background-color: #FFFFFF;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        transition: all 0.3s;
+    }
+
+    .profile-nickname {
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 2px;
+    }
+
+    /* 사이드바가 열려있을 때 헤더 조정 */
+    .header.sidebar-open,
+    .tubelab-header.sidebar-open {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+    }
+
+    /* 레거시 지원 */
+    .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--header-height);
+        background-color: #FFFFFF;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        transition: all 0.3s;
+    }
+
+    /* 헤더 내부 요소 배치 */
+    .header-left,
+    .nav .logo-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* 로고 스타일 */
+    .logo-container,
+    .logo-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-sm);
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background-color: var(--primary-color);
+    }
+
+    .logo img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .logo-text {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+    }
+
+    /* ===== 헤더 내 버튼 및 토글 ===== */
+    .menu-toggle {
+        display: none;
+        margin-right: 15px;
+        cursor: pointer;
+        color: var(--dark-gray);
+    }
+
+    .sidebar-toggle {
+        display: flex;
+        margin-right: 15px;
+        cursor: pointer;
+        z-index: 110;
+        color: var(--dark-gray);
+    }
+
+    /* 화면 너비가 768px 이하일 때 (모바일 환경) */
+    @media (max-width: 1024px) {
+        .menu-toggle { /* 모바일용 햄버거 버튼 */
+            display: flex; /* 모바일에서는 보이도록 변경 (또는 'block' 등 상황에 맞게) */
+            align-items: center; /* 아이콘 수직 정렬을 위해 추가 */
+        }
+
+        .sidebar-toggle { /* PC용 사이드바 접기/펼치기 버튼 */
+            display: none; /* 모바일에서는 숨기도록 변경 */
+        }
+
+        /* 추가적으로, 모바일에서 헤더의 패딩이나 다른 요소들 조정이 필요하다면 여기에 추가 */
+        /* 예시: 헤더 좌우 패딩 줄이기 */
+        /*
+        .header,
+        .tubelab-header {
+            padding: 0 15px;
+        }
+        */
+
+        /* 예시: 모바일에서 프로필 정보 간소화 (필요하다면) */
+        /*
+        .profile-info .profile-name,
+        .profile-info .profile-id {
+            display: none; // 닉네임만 보이게 하거나
+        }
+        .profile-info {
+            max-width: 100px; // 너비 조절
+        }
+        */
+    }
+
+    /* 사이드바 토글 아이콘 변경 스타일 */
+    .sidebar-toggle-icon {
+        transition: all 0.3s;
+    }
+
+    .sidebar-toggle-icon.collapsed .sidebar-icon {
+        display: inline-block;
+    }
+
+    .sidebar-toggle-icon.collapsed .close-icon {
+        display: none;
+    }
+
+    .sidebar-toggle-icon .sidebar-icon {
+        display: none;
+    }
+
+    .sidebar-toggle-icon .close-icon {
+        display: inline-block;
+    }
+
+    /* ===== 알림 버튼 스타일 ===== */
+    .notification-button {
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: all 0.3s;
+        color: var(--dark-gray);
+    }
+
+    .notification-button:hover {
+        background-color: #f5f5f5;
+    }
+
+    .notification-button svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* 알림 뱃지 */
+    .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background-color: #ff4757;
+        color: white;
+        font-size: 10px;
+        font-weight: 600;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* ===== 프로필 영역 스타일 ===== */
+    .profile-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        padding: 5px;
+        border-radius: 20px;
+        transition: all 0.3s;
+    }
+
+    .profile-container:hover {
+        background-color: #f5f5f5;
+    }
+
+    .profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+        background-color: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        color: #333;
+        flex-shrink: 0;
+    }
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-info {
+        max-width: 150px;
+        flex-grow: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-name {
+        font-weight: 400;
+        font-size: 12px;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .profile-id {
+        font-weight: 400;
+        font-size: 12px;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .profile-dropdown {
+        margin-left: 4px;
+        color: var(--dark-gray);
+    }
+
+    /* 프로필 드롭다운 메뉴 */
+    .profile-menu {
+        position: absolute;
+        top: 55px;
+        right: 0;
+        background-color: white;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        width: 180px;
+        z-index: 1000;
+        display: none;
+        overflow: hidden;
+    }
+
+    .profile-menu-item {
+        padding: 12px 16px;
+        font-size: var(--font-sm);
+        color: #333;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: background-color var(--transition-speed);
+    }
+
+    .profile-menu-item:hover {
+        background-color: #f5f5f5;
+    }
+
+    .profile-menu-item svg {
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .profile-menu-divider {
+        height: 1px;
+        background-color: var(--border-color);
+    }
+
+    .logout-item {
+        color: var(--danger-color);
+    }
+</style>
+<header class="tubelab-header sidebar-open" id="header">
+<div class="header-left">
+<!-- 모바일 메뉴 토글 버튼 -->
+<div class="menu-toggle" id="mobileMenuToggle">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<line x1="3" x2="21" y1="12" y2="12"></line>
+<line x1="3" x2="21" y1="6" y2="6"></line>
+<line x1="3" x2="21" y1="18" y2="18"></line>
+</svg>
+</div>
+<!-- 사이드바 접기/펼치기 버튼 -->
+<div class="sidebar-toggle" id="toggleSidebar">
+<div class="sidebar-toggle-icon" id="sidebarToggleIcon">
+<!-- 사이드바 펼침 아이콘 (사이드바가 접혀있을 때 표시) -->
+<div class="sidebar-icon">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
+<line x1="9" x2="9" y1="3" y2="21"></line>
+</svg>
+</div>
+<!-- 사이드바 접기 아이콘 (사이드바가 펼쳐져 있을 때 표시) -->
+<div class="close-icon">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
+<line x1="3" x2="21" y1="9" y2="9"></line>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div class="header-right">
+<!-- 관리자용 활성 사용자 표시 -->
+<!-- 알림 버튼 -->
+<div class="notification-button" id="notificationButton">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+</svg>
+<!-- 알림이 있을 때 표시될 뱃지 (예시로 숨김 처리) -->
+<!-- <span class="notification-badge">3</span> -->
+</div>
+<!-- 프로필 정보 -->
+<div class="profile-container" id="profileContainer">
+<div class="profile-avatar">M0S_quito</div>
+<div class="profile-info">
+<div class="profile-nickname">M0S_quito</div>
+<div class="profile-name">M0S_quito</div>
+<div class="profile-id">M0S_quito</div>
+</div>
+<div class="profile-dropdown">
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9l6 6 6-6"></path>
+</svg>
+</div>
+<!-- 프로필 드롭다운 메뉴 -->
+<div class="profile-menu" id="profileMenu">
+<div class="profile-menu-section">
+
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+<polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+</svg>
+                            정보 변경
+                        
+</div>
+<div class="profile-menu-divider"></div>
+<div class="profile-menu-section">
+
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+<polyline points="14 2 14 8 20 8"></polyline>
+<line x1="16" x2="8" y1="13" y2="13"></line>
+<line x1="16" x2="8" y1="17" y2="17"></line>
+<polyline points="10 9 9 9 8 9"></polyline>
+</svg>
+                            내가 쓴 글
+                        
+</div>
+<div class="profile-menu-divider"></div>
+<div class="profile-menu-section">
+
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+<polyline points="16 17 21 12 16 7"></polyline>
+<line x1="21" x2="9" y1="12" y2="12"></line>
+</svg>
+                            로그아웃
+                        
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- 내가 쓴 글 모달 -->
+<div class="header-modal-overlay" id="headerMyPostsModal" style="display: none;">
+<div class="header-modal-container">
+<div class="header-modal-header">
+<h3 class="header-modal-title">내가 쓴 글</h3>
+<button class="header-modal-close" id="closeHeaderMyPostsModal">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<line x1="18" x2="6" y1="6" y2="18"></line>
+<line x1="6" x2="18" y1="6" y2="18"></line>
+</svg>
+</button>
+</div>
+<div class="header-modal-body">
+<!-- 필터 옵션 -->
+<div class="filter-section">
+<label class="checkbox-container">
+<input checked="" id="filterPosts" type="checkbox"/>
+<span class="checkbox-custom"></span>
+<span class="checkbox-label">게시글</span>
+</label>
+<label class="checkbox-container">
+<input checked="" id="filterComments" type="checkbox"/>
+<span class="checkbox-custom"></span>
+<span class="checkbox-label">댓글</span>
+</label>
+</div>
+<!-- 필터 결과 정보 -->
+<div class="filter-info" id="filterInfo" style="display: none;">
+<span>총 <span class="filter-count" id="filterCount">0</span>개의 결과</span>
+</div>
+<!-- 콘텐츠 리스트 -->
+<div class="content-list" id="myContentList">
+<!-- 로딩 상태 -->
+<div class="loading-container" id="contentLoading" style="display: none;">
+<div class="loading-spinner">
+<div class="spinner-ring"></div>
+<div class="spinner-ring"></div>
+<div class="spinner-ring"></div>
+</div>
+<p class="loading-text">불러오는 중...</p>
+</div>
+<!-- 콘텐츠가 여기에 동적으로 추가됩니다 -->
+</div>
+<!-- 페이지네이션 -->
+<div class="pagination-container" id="paginationContainer" style="display: none;"></div>
+<!-- 빈 상태 메시지 -->
+<div class="empty-state" id="emptyState" style="display: none;">
+<svg fill="none" height="48" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+<polyline points="14 2 14 8 20 8"></polyline>
+</svg>
+<p>작성한 글이 없습니다.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 알림 모달 -->
+<div class="header-modal-overlay" id="headerNotificationModal" style="display: none;">
+<div class="header-modal-container">
+<div class="header-modal-header">
+<h3 class="header-modal-title">알림</h3>
+<button class="header-modal-close" id="closeHeaderNotificationModal">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<line x1="18" x2="6" y1="6" y2="18"></line>
+<line x1="6" x2="18" y1="6" y2="18"></line>
+</svg>
+</button>
+</div>
+<div class="header-modal-body">
+<!-- 알림 리스트 -->
+<div class="notification-list" id="notificationList">
+<!-- 로딩 상태 -->
+<div class="loading-container" id="notificationLoading" style="display: none;">
+<div class="loading-spinner">
+<div class="spinner-ring"></div>
+<div class="spinner-ring"></div>
+<div class="spinner-ring"></div>
+</div>
+<p class="loading-text">알림을 불러오는 중...</p>
+</div>
+<!-- 알림이 여기에 동적으로 추가됩니다 -->
+</div>
+<!-- 빈 상태 메시지 -->
+<div class="empty-state" id="notificationEmptyState" style="display: none;">
+<svg fill="none" height="48" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+</svg>
+<p>새로운 알림이 없습니다.</p>
+</div>
+</div>
+</div>
+</div>
+<style>
+/* 헤더 모달 오버레이 */
+.header-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header-modal-overlay.show {
+    opacity: 1;
+}
+
+/* 헤더 모달 컨테이너 */
+.header-modal-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.header-modal-overlay.show .header-modal-container {
+    transform: scale(1);
+}
+
+/* 헤더 모달 헤더 */
+.header-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.header-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #6b7280;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.header-modal-close:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* 헤더 모달 바디 */
+.header-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+}
+/* 모달 오버레이 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 페이지네이션 스타일 */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.pagination-btn {
+    padding: 8px 12px;
+    border: 1px solid #e5e7eb;
+    background-color: #fff;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 36px;
+    text-align: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.pagination-btn.active {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 12px;
+}
+
+.pagination-dots {
+    padding: 8px 4px;
+    color: #9ca3af;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+/* 모달 컨테이너 */
+.modal-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-container {
+    transform: scale(1);
+}
+
+/* 모달 헤더 */
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #6b7280;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* 모달 바디 */
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+}
+
+/* 필터 섹션 */
+.filter-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.checkbox-container input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-custom {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    margin-right: 8px;
+    transition: all 0.2s;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.checkbox-container input[type="checkbox"]:checked ~ .checkbox-custom {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.checkbox-custom::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-container input[type="checkbox"]:checked ~ .checkbox-custom::after {
+    display: block;
+}
+
+.checkbox-label {
+    font-size: 14px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.checkbox-container:hover .checkbox-custom {
+    border-color: #9ca3af;
+}
+
+.checkbox-container input[type="checkbox"]:checked:hover ~ .checkbox-custom {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+/* 필터 결과 정보 */
+.filter-info {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-count {
+    font-weight: 600;
+    color: #374151;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* 콘텐츠 리스트 */
+.content-list,
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 콘텐츠 아이템 */
+.content-item,
+.notification-item {
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.content-item:hover,
+.notification-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.content-item.post {
+    background-color: #eff6ff;
+    border-color: #dbeafe;
+}
+
+.content-item.comment {
+    background-color: #f0fdf4;
+    border-color: #d1fae5;
+}
+
+.content-type {
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.content-item.post .content-type {
+    color: #2563eb;
+}
+
+.content-item.comment .content-type {
+    color: #059669;
+}
+
+.content-type-icon {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.content-type-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.content-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.content-preview {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.5;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
+}
+
+.content-meta {
+    font-size: 12px;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.content-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 알림 아이템 스타일 */
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.notification-icon svg {
+    width: 20px;
+    height: 20px;
+    color: #3b82f6;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-message {
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.notification-item.unread {
+    background-color: #f0f9ff;
+    border-color: #bfdbfe;
+}
+
+/* 로딩 스피너 */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 200px;
+}
+
+.loading-spinner {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:nth-child(1) {
+    border-top-color: #3b82f6;
+    animation-delay: -0.45s;
+}
+
+.spinner-ring:nth-child(2) {
+    border-right-color: #10b981;
+    animation-delay: -0.3s;
+}
+
+.spinner-ring:nth-child(3) {
+    border-bottom-color: #8b5cf6;
+    animation-delay: -0.15s;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* 대체 로딩 스타일 - 도트 애니메이션 */
+.loading-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 60px 20px;
+}
+
+.loading-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.loading-dot:nth-child(3) {
+    animation-delay: 0;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 빈 상태 */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-state svg {
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.content-board {
+    font-size: 11px;
+    font-weight: 500;
+    color: #8b5cf6;
+    background-color: #f3e8ff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+/* 알림 미리보기 스타일 추가 */
+.notification-preview {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-top: 4px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+@media (max-width: 640px) {
+    .modal-container {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding: 16px 20px;
+    }
+    
+    .filter-section {
+        flex-wrap: wrap;
+    }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 헤더 모달 요소들
+    const headerMyPostsModal = document.getElementById('headerMyPostsModal');
+    const headerNotificationModal = document.getElementById('headerNotificationModal');
+    const closeHeaderMyPostsModal = document.getElementById('closeHeaderMyPostsModal');
+    const closeHeaderNotificationModal = document.getElementById('closeHeaderNotificationModal');
+    
+    // 필터 체크박스
+    const filterPosts = document.getElementById('filterPosts');
+    const filterComments = document.getElementById('filterComments');
+    
+    // 내가 쓴 글 모달 열기/닫기
+    window.openHeaderMyPostsModal = function() {
+        headerMyPostsModal.style.display = 'flex';
+        setTimeout(() => headerMyPostsModal.classList.add('show'), 10);
+        loadHeaderMyContent();
+    };
+    
+    window.closeHeaderMyPostsModalFunc = function() {
+        headerMyPostsModal.classList.remove('show');
+        setTimeout(() => headerMyPostsModal.style.display = 'none', 300);
+    };
+    
+    // 알림 모달 열기/닫기
+    window.openHeaderNotificationModal = function() {
+        headerNotificationModal.style.display = 'flex';
+        setTimeout(() => headerNotificationModal.classList.add('show'), 10);
+        loadHeaderNotifications();
+    };
+    
+    window.closeHeaderNotificationModalFunc = function() {
+        headerNotificationModal.classList.remove('show');
+        setTimeout(() => headerNotificationModal.style.display = 'none', 300);
+    };
+    
+    // 모달 닫기 버튼 이벤트
+    if (closeHeaderMyPostsModal) {
+        closeHeaderMyPostsModal.addEventListener('click', window.closeHeaderMyPostsModalFunc);
+    }
+    
+    if (closeHeaderNotificationModal) {
+        closeHeaderNotificationModal.addEventListener('click', window.closeHeaderNotificationModalFunc);
+    }
+    
+    // 모달 외부 클릭 시 닫기
+    headerMyPostsModal.addEventListener('click', function(e) {
+        if (e.target === headerMyPostsModal) {
+            window.closeHeaderMyPostsModalFunc();
+        }
+    });
+    
+    headerNotificationModal.addEventListener('click', function(e) {
+        if (e.target === headerNotificationModal) {
+            window.closeHeaderNotificationModalFunc();
+        }
+    });
+    
+    // 필터 변경 시 콘텐츠 다시 로드
+    if (filterPosts) {
+        filterPosts.addEventListener('change', () => loadHeaderMyContent(1));
+    }
+    if (filterComments) {
+        filterComments.addEventListener('change', () => loadHeaderMyContent(1));
+    }
+    
+    // 전역 변수로 현재 페이지 추적
+    let headerCurrentPage = 1;
+    let headerTotalPages = 1;
+    
+    // 내가 쓴 글 로드 함수
+    function loadHeaderMyContent(page = 1) {
+        const contentList = document.getElementById('myContentList');
+        const loading = document.getElementById('contentLoading');
+        const emptyState = document.getElementById('emptyState');
+        const filterInfo = document.getElementById('filterInfo');
+        const filterCount = document.getElementById('filterCount');
+        const filterPosts = document.getElementById('filterPosts');
+        const filterComments = document.getElementById('filterComments');
+        const paginationContainer = document.getElementById('paginationContainer');
+        
+        headerCurrentPage = page;
+        
+        console.log('요소 확인:', {
+            contentList: !!contentList,
+            loading: !!loading,
+            emptyState: !!emptyState
+        });
+        
+        // 요소 존재 확인
+        if (!contentList) {
+            console.error('myContentList 요소를 찾을 수 없습니다');
+            return;
+        }
+        
+        // 로딩 요소가 없으면 생성
+        if (!loading) {
+            const newLoading = document.createElement('div');
+            newLoading.id = 'contentLoading';
+            newLoading.className = 'loading-container';
+            newLoading.innerHTML = `
+                <div class="loading-spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                </div>
+                <p class="loading-text">불러오는 중...</p>
+            `;
+            contentList.appendChild(newLoading);
+        }
+        
+        const loadingElement = loading || document.getElementById('contentLoading');
+        
+        // 로딩 표시
+        loadingElement.style.display = 'flex';
+        if (emptyState) emptyState.style.display = 'none';
+        if (filterInfo) filterInfo.style.display = 'none';
+        if (paginationContainer) paginationContainer.style.display = 'none';
+        
+        // 기존 콘텐츠 제거
+        while (contentList.firstChild) {
+            if (contentList.firstChild.id !== 'contentLoading') {
+                contentList.removeChild(contentList.firstChild);
+            } else {
+                break;
+            }
+        }
+        
+        // 필터 상태 가져오기
+        const showPosts = filterPosts ? filterPosts.checked : true;
+        const showComments = filterComments ? filterComments.checked : true;
+        
+        console.log('필터 상태:', { showPosts, showComments });
+        
+        // 필터가 모두 해제된 경우
+        if (!showPosts && !showComments) {
+            loadingElement.style.display = 'none';
+            const noResults = document.createElement('div');
+            noResults.className = 'no-results';
+            noResults.textContent = '게시글 또는 댓글 중 하나 이상을 선택해주세요.';
+            contentList.appendChild(noResults);
+            return;
+        }
+        
+        // API 호출
+        fetch(`/includes/header_modal_api.php?action=get_my_content&posts=${showPosts}&comments=${showComments}&page=${page}`)
+            .then(response => response.json())
+            .then(data => {
+                // 로딩 제거
+                loadingElement.style.display = 'none';
+                
+                // 기존 콘텐츠 모두 제거
+                contentList.innerHTML = '';
+                
+                if (data.error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'text-center text-danger';
+                    errorDiv.textContent = data.error;
+                    contentList.appendChild(errorDiv);
+                    return;
+                }
+                
+                console.log('받은 데이터:', data);
+                
+                if (!data.data || data.data.length === 0) {
+                    // emptyState가 없으면 새로 생성
+                    if (!emptyState) {
+                        const newEmptyState = document.createElement('div');
+                        newEmptyState.className = 'empty-state';
+                        newEmptyState.id = 'emptyState';
+                        newEmptyState.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                            <p>작성한 글이 없습니다.</p>
+                        `;
+                        contentList.appendChild(newEmptyState);
+                    } else {
+                        emptyState.style.display = 'flex';
+                        contentList.appendChild(emptyState);
+                    }
+                } else {
+                    // 필터 정보 표시
+                    if (filterInfo && filterCount) {
+                        filterInfo.style.display = 'flex';
+                        filterCount.textContent = data.total || data.data.length;
+                    }
+                    
+                    // 콘텐츠 표시
+                    data.data.forEach(item => {
+                        const contentItem = createHeaderContentItem(item);
+                        contentList.appendChild(contentItem);
+                    });
+                    
+                    // 페이지네이션 표시
+                    if (data.total > 20 && paginationContainer) {
+                        headerTotalPages = Math.ceil(data.total / 20);
+                        createHeaderPagination(headerCurrentPage, headerTotalPages);
+                        paginationContainer.style.display = 'flex';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+                loadingElement.style.display = 'none';
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'text-center text-danger';
+                errorDiv.textContent = '데이터를 불러오는 중 오류가 발생했습니다.';
+                contentList.appendChild(errorDiv);
+            });
+    }
+    
+    // 페이지네이션 생성 함수
+    function createHeaderPagination(currentPage, totalPages) {
+        const paginationContainer = document.getElementById('paginationContainer');
+        if (!paginationContainer) return;
+        
+        paginationContainer.innerHTML = '';
+        
+        // 이전 버튼
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'pagination-btn';
+        prevBtn.innerHTML = '이전';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => loadHeaderMyContent(currentPage - 1);
+        paginationContainer.appendChild(prevBtn);
+        
+        // 페이지 번호 버튼들
+        const maxVisible = 5; // 한 번에 보여줄 최대 페이지 수
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+        
+        // 시작 페이지 조정
+        if (endPage - startPage < maxVisible - 1) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+        
+        // 첫 페이지와 점점점
+        if (startPage > 1) {
+            const firstBtn = document.createElement('button');
+            firstBtn.className = 'pagination-btn';
+            firstBtn.textContent = '1';
+            firstBtn.onclick = () => loadHeaderMyContent(1);
+            paginationContainer.appendChild(firstBtn);
+            
+            if (startPage > 2) {
+                const dots = document.createElement('span');
+                dots.className = 'pagination-dots';
+                dots.textContent = '...';
+                paginationContainer.appendChild(dots);
+            }
+        }
+        
+        // 페이지 번호들
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = 'pagination-btn';
+            if (i === currentPage) {
+                pageBtn.classList.add('active');
+            }
+            pageBtn.textContent = i;
+            pageBtn.onclick = () => loadHeaderMyContent(i);
+            paginationContainer.appendChild(pageBtn);
+        }
+        
+        // 마지막 페이지와 점점점
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('span');
+                dots.className = 'pagination-dots';
+                dots.textContent = '...';
+                paginationContainer.appendChild(dots);
+            }
+            
+            const lastBtn = document.createElement('button');
+            lastBtn.className = 'pagination-btn';
+            lastBtn.textContent = totalPages;
+            lastBtn.onclick = () => loadHeaderMyContent(totalPages);
+            paginationContainer.appendChild(lastBtn);
+        }
+        
+        // 다음 버튼
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'pagination-btn';
+        nextBtn.innerHTML = '다음';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => loadHeaderMyContent(currentPage + 1);
+        paginationContainer.appendChild(nextBtn);
+        
+        // 페이지 정보
+        const pageInfo = document.createElement('span');
+        pageInfo.className = 'pagination-info';
+        pageInfo.textContent = `${currentPage} / ${totalPages}`;
+        paginationContainer.appendChild(pageInfo);
+    }
+    
+    // 콘텐츠 아이템 생성 함수
+    function createHeaderContentItem(data) {
+        const div = document.createElement('div');
+        div.className = `content-item ${data.type}`;
+        
+        if (data.type === 'post') {
+            div.innerHTML = `
+                <div class="content-type">
+                    <div class="content-type-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    게시글
+                </div>
+                ${data.board ? `<div class="content-board">${escapeHeaderHtml(data.board)}</div>` : ''}
+                <div class="content-title">${escapeHeaderHtml(data.title)}</div>
+                <div class="content-preview">${escapeHeaderHtml(data.content)}</div>
+                <div class="content-meta">
+                    <span>${data.date}</span>
+                    <span>조회 ${data.views}</span>
+                    <span>좋아요 ${data.likes}</span>
+                    <span>댓글 ${data.comments}</span>
+                </div>
+            `;
+        } else {
+            div.innerHTML = `
+                <div class="content-type">
+                    <div class="content-type-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    댓글
+                </div>
+                ${data.board ? `<div class="content-board">${escapeHeaderHtml(data.board)}</div>` : ''}
+                <div class="content-title">${escapeHeaderHtml(data.title)}</div>
+                <div class="content-preview">${escapeHeaderHtml(data.content)}</div>
+                <div class="content-meta">
+                    <span>${data.date}</span>
+                </div>
+            `;
+        }
+        
+        // 클릭 이벤트 추가
+        div.addEventListener('click', function() {
+            if (data.url) {
+                window.location.href = data.url;
+            }
+        });
+        
+        return div;
+    }
+    
+    // 알림 로드 함수
+    function loadHeaderNotifications() {
+        const notificationList = document.getElementById('notificationList');
+        const loading = document.getElementById('notificationLoading');
+        const emptyState = document.getElementById('notificationEmptyState');
+        
+        // 요소 존재 확인
+        if (!notificationList || !loading) {
+            console.error('알림 요소를 찾을 수 없습니다');
+            return;
+        }
+        
+        // 로딩 표시
+        loading.style.display = 'flex';
+        if (emptyState) emptyState.style.display = 'none';
+        
+        // 기존 콘텐츠 제거하고 로딩 표시
+        notificationList.innerHTML = '';
+        notificationList.appendChild(loading);
+        
+        // API 호출
+        fetch('/includes/header_modal_api.php?action=get_notifications')
+            .then(response => response.json())
+            .then(data => {
+                // 로딩 제거
+                loading.style.display = 'none';
+                notificationList.innerHTML = '';
+                
+                if (data.error) {
+                    notificationList.innerHTML = `<div class="text-center text-danger">${data.error}</div>`;
+                    return;
+                }
+                
+                if (!data.data || data.data.length === 0) {
+                    if (emptyState) {
+                        emptyState.style.display = 'flex';
+                        notificationList.appendChild(emptyState);
+                    } else {
+                        notificationList.innerHTML = '<div class="empty-state"><p>새로운 알림이 없습니다.</p></div>';
+                    }
+                } else {
+                    data.data.forEach(notification => {
+                        const notificationItem = createHeaderNotificationItem(notification);
+                        notificationList.appendChild(notificationItem);
+                    });
+                }
+                
+                // 알림 뱃지 업데이트
+                if (data.unreadCount > 0) {
+                    updateHeaderNotificationBadge(data.unreadCount);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading notifications:', error);
+                loading.style.display = 'none';
+                notificationList.innerHTML = '<div class="text-center text-danger">알림을 불러오는 중 오류가 발생했습니다.</div>';
+            });
+    }
+    
+    // 알림 아이템 생성 함수
+    function createHeaderNotificationItem(data) {
+        const div = document.createElement('div');
+        div.className = `notification-item ${data.unread ? 'unread' : ''}`;
+        
+        let iconSvg = '';
+        if (data.type === 'comment') {
+            iconSvg = '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>';
+        } else if (data.type === 'reply') {
+            iconSvg = '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>';
+        } else {
+            iconSvg = '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>';
+        }
+        
+        div.innerHTML = `
+            <div class="notification-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    ${iconSvg}
+                </svg>
+            </div>
+            <div class="notification-content">
+                <div class="notification-message">${escapeHeaderHtml(data.message)}</div>
+                ${data.preview ? `<div class="notification-preview">${escapeHeaderHtml(data.preview)}</div>` : ''}
+                <div class="notification-time">${escapeHeaderHtml(data.time)}</div>
+            </div>
+        `;
+        
+        // 클릭 이벤트 추가
+        div.addEventListener('click', function() {
+            // 알림을 읽음 처리
+            if (data.unread) {
+                markHeaderAsRead(data.id);
+                div.classList.remove('unread');
+            }
+            
+            // 해당 페이지로 이동
+            if (data.url) {
+                window.location.href = data.url;
+            }
+        });
+        
+        return div;
+    }
+    
+    // HTML 이스케이프 함수
+    function escapeHeaderHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+    
+    // 알림 읽음 처리 함수
+    function markHeaderAsRead(notificationId) {
+        const formData = new FormData();
+        formData.append('notification_id', notificationId);
+        
+        fetch('/includes/header_modal_api.php?action=mark_notification_read', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // 알림 뱃지 업데이트
+                updateHeaderNotificationBadge(-1);
+            }
+        })
+        .catch(error => {
+            console.error('Error marking notification as read:', error);
+        });
+    }
+    
+    // 알림 뱃지 업데이트 함수
+    function updateHeaderNotificationBadge(count) {
+        const notificationButton = document.getElementById('notificationButton');
+        if (!notificationButton) return;
+        
+        let badge = notificationButton.querySelector('.notification-badge');
+        
+        if (count > 0) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'notification-badge';
+                notificationButton.appendChild(badge);
+            }
+            badge.textContent = count > 99 ? '99+' : count;
+        } else if (badge) {
+            badge.remove();
+        }
+    }
+    
+    // 페이지 로드 시 알림 개수 확인
+    checkHeaderNotificationCount();
+    
+    function checkHeaderNotificationCount() {
+        fetch('/includes/header_modal_api.php?action=get_notifications')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.unreadCount > 0) {
+                    updateHeaderNotificationBadge(data.unreadCount);
+                }
+            })
+            .catch(error => {
+                console.error('Error checking notifications:', error);
+            });
+    }
+});
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 프로필 메뉴 토글
+        const profileContainer = document.getElementById('profileContainer');
+        const profileMenu = document.getElementById('profileMenu');
+        
+        if (profileContainer && profileMenu) {
+            profileContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+        
+        // 알림 버튼 클릭 이벤트
+        const notificationButton = document.getElementById('notificationButton');
+        if (notificationButton) {
+            notificationButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // 알림 모달 열기
+                if (typeof window.openHeaderNotificationModal === 'function') {
+                    window.openHeaderNotificationModal();
+                }
+            });
+        }
+        
+        // 내가 쓴 글 버튼 클릭 이벤트
+        const myPostsBtn = document.getElementById('myPostsBtn');
+        if (myPostsBtn) {
+            myPostsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                // 내가 쓴 글 모달 열기
+                if (typeof window.openHeaderMyPostsModal === 'function') {
+                    window.openHeaderMyPostsModal();
+                }
+                // 프로필 메뉴 닫기
+                if (profileMenu) {
+                    profileMenu.style.display = 'none';
+                }
+            });
+        }
+        
+        // 다른 곳 클릭 시 프로필 메뉴 닫기
+        document.addEventListener('click', function() {
+            if (profileMenu && profileMenu.style.display === 'block') {
+                profileMenu.style.display = 'none';
+            }
+        });
+        
+        // 모바일 메뉴 토글 - 개선된 방식
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        
+        if (mobileMenuToggle && sidebar) {
+            mobileMenuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // 모바일 환경에서는 active 클래스만 토글
+                sidebar.classList.toggle('active');
+                
+                // 오버레이 활성화
+                if (mobileMenuOverlay) {
+                    mobileMenuOverlay.classList.toggle('active');
+                }
+            });
+        }
+        
+        // 사이드바 토글 버튼
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const toggleIcon = document.getElementById('sidebarToggleIcon');
+        
+        if (toggleSidebar && sidebar) {
+            toggleSidebar.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                
+                // 토글 아이콘 업데이트
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                if (toggleIcon) {
+                    toggleIcon.classList.toggle('collapsed', isCollapsed);
+                }
+                
+                document.getElementById('header').classList.toggle('sidebar-open');
+                
+                // 사이드바 상태 변경 함수 호출
+                if (typeof window.updateLayoutForSidebar === 'function') {
+                    window.updateLayoutForSidebar(isCollapsed);
+                }
+            });
+        }
+        
+        // 사이드바 상태 변경 이벤트 리스너
+        document.addEventListener('sidebarStateChange', function(e) {
+            const isCollapsed = e.detail.isCollapsed;
+            const header = document.getElementById('header');
+            
+            if (isCollapsed) {
+                header.classList.remove('sidebar-open');
+                if (toggleIcon) {
+                    toggleIcon.classList.add('collapsed');
+                }
+            } else {
+                header.classList.add('sidebar-open');
+                if (toggleIcon) {
+                    toggleIcon.classList.remove('collapsed');
+                }
+            }
+        });
+        
+        // 페이지 로드 시 저장된 사이드바 상태 확인
+        const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (sidebarCollapsed && sidebar) {
+            sidebar.classList.add('collapsed');
+            document.getElementById('header').classList.remove('sidebar-open');
+            if (toggleIcon) {
+                toggleIcon.classList.add('collapsed');
+            }
+        }
+    });
+</script>
+<div class="main-container">
+<!-- 사이드바 포함 -->
+<style>
+    /* 기존 스타일 유지 */
+    .tubelab-sidebar {
+        width: 220px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: #ffffff;
+        border-right: 1px solid #e0e0e0;
+        z-index: 100;
+        transition: all 0.3s;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .tubelab-sidebar.collapsed {
+        transform: translateX(-100%);
+        margin-left: -220px;
+    }
+    
+    .tubelab-sidebar .sidebar-logo {
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        height: 60px;
+        flex-shrink: 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .tubelab-sidebar .logo-box {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    .tubelab-sidebar .logo-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    
+    .tubelab-sidebar .logo-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: #111;
+    }
+
+    .tubelab-sidebar .sidebar-menu {
+        padding: 10px 0;
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+    
+    .tubelab-sidebar .menu-section {
+        margin-bottom: 5px;
+    }
+    
+    .tubelab-sidebar .menu-title {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #111;
+        cursor: pointer;
+        text-decoration: none;
+        position: relative;
+    }
+    
+    .tubelab-sidebar .menu-title.has-submenu {
+        justify-content: space-between;
+    }
+    
+    .tubelab-sidebar .menu-title i {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+    }
+    
+    .tubelab-sidebar .menu-title .arrow {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.2s;
+    }
+    
+    .tubelab-sidebar .menu-title.expanded .arrow {
+        transform: rotate(90deg);
+    }
+    
+    .tubelab-sidebar .menu-item {
+        padding: 8px 20px 8px 48px;
+        font-size: 14px;
+        color: #000000;
+        display: block;
+        text-decoration: none;
+        transition: background-color 0.2s;
+        position: relative;
+    }
+    
+    .tubelab-sidebar .menu-item:hover, 
+    .tubelab-sidebar .menu-title:hover {
+        background-color: #e9e9e9;
+    }
+    
+    .tubelab-sidebar .menu-item.active,
+    .tubelab-sidebar .menu-title.active {
+        background-color: #e5e5e5;
+        color: #111;
+        font-weight: 500;
+    }
+    
+    .tubelab-sidebar .divider {
+        height: 1px;
+        background-color: #e0e0e0;
+        margin: 10px 0;
+    }
+    
+    .tubelab-sidebar .section-title {
+        padding: 10px 20px;
+        font-size: 12px;
+        color: #999;
+        text-transform: uppercase;
+    }
+    
+    /* 로그인 유도 영역 */
+    .sidebar-login-prompt {
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .login-message {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+    
+    .login-button {
+        background-color: #FF0000;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        transition: background-color 0.2s;
+    }
+    
+    .login-button:hover {
+        background-color: #E60000;
+    }
+    
+    .sidebar-close-button {
+        display: none;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: rgb(255,80,80);
+        cursor: pointer;
+        z-index: 10;
+    }
+    
+    /* 알림 배지 스타일 추가 */
+    .notification-badge {
+        background-color: #ff0000;
+        color: white;
+        font-size: 10px;
+        font-weight: bold;
+        padding: 2px 5px;
+        border-radius: 10px;
+        margin-left: 5px;
+        display: inline-block;
+        min-width: 16px;
+        text-align: center;
+        line-height: 1.2;
+        vertical-align: middle;
+    }
+    
+    /* 메뉴 타이틀에서 배지 위치 */
+    .menu-title .notification-badge {
+        position: absolute;
+        right: 35px; /* 화살표 왼쪽에 위치 */
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    /* 화살표가 없는 메뉴의 경우 */
+    .menu-title:not(.has-submenu) .notification-badge {
+        right: 20px;
+    }
+    
+    /* 서브메뉴 아이템의 배지 */
+    .menu-item .notification-badge {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    @media (max-width: 1024px) {
+        .tubelab-sidebar {
+            width: 100%;
+            transform: translateX(-100%);
+            z-index: 9999;
+        }
+        .sidebar-close-button {
+            display: block;
+        }
+        
+        .tubelab-sidebar.active {
+            transform: translateX(0);
+            margin-left: 0;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    /* 레이아웃 관련 스타일 */
+    body.has-sidebar .main-content {
+        margin-left: 220px;
+    }
+
+    body.sidebar-collapsed .main-content {
+        margin-left: 0;
+    }
+    
+    @media (max-width: 768px) {
+        body.has-sidebar .main-content,
+        body.sidebar-collapsed .main-content,
+        .main-content {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+        
+        .notification-badge {
+            font-size: 9px;
+            padding: 2px 4px;
+            min-width: 14px;
+        }
+    }
+    
+    /* 디버그 정보 스타일 */
+    .debug-info {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 10px;
+        font-size: 12px;
+        border-radius: 5px;
+        z-index: 10000;
+        max-width: 300px;
+    }
+    
+    /* 오류 메시지 스타일 */
+    .sidebar-error {
+        padding: 20px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        margin: 10px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+</style>
+<!-- 모바일 메뉴 오버레이 -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+<div class="tubelab-sidebar" id="sidebar">
+<div class="sidebar-logo">
+
+<div class="logo-box" style="background-color: #FF0033;">
+</div>
+<div class="logo-text">튜브랩</div>
+
+<button aria-label="사이드바 닫기" class="sidebar-close-button" id="closeMobileSidebarBtn">
+<i class="far fa-times-circle"></i>
+</button>
+</div>
+<div class="sidebar-menu">
+<div class="menu-section">
+<!-- 단독 메뉴 -->
+
+<div>
+<i class="fas fa-home"></i>
+                            대시보드                        </div>
+
+</div>
+<div class="menu-section">
+<!-- 단독 메뉴 -->
+
+<div>
+<i class="fas fa-calendar"></i>
+                            영상 업로드 캘린더                        </div>
+
+</div>
+<div class="menu-section">
+<!-- 서브메뉴가 있는 경우 -->
+<div class="menu-title has-submenu" data-menu-id="group_missions">
+<div>
+<i class="fas fa-tasks"></i>
+                            나의 미션                        </div>
+<i class="arrow fas fa-chevron-right"></i>
+</div>
+
+                            미션관리                        
+</div>
+<div class="menu-section">
+<!-- 서브메뉴가 있는 경우 -->
+<div class="menu-title has-submenu" data-menu-id="group_learning">
+<div>
+<i class="fas fa-pen-alt"></i>
+                            콘텐츠 학습                        </div>
+<i class="arrow fas fa-chevron-right"></i>
+</div>
+
+                            채널 분석기                        
+
+                            채널 목록                        
+
+                            카테고리 관리                        
+</div>
+<div class="menu-section">
+<!-- 단독 메뉴 -->
+
+<div>
+<i class="fas fa-book-open"></i>
+                            학습자료 게시판                        </div>
+
+</div>
+<div class="menu-section">
+<!-- 서브메뉴가 있는 경우 -->
+<div class="menu-title has-submenu" data-menu-id="group_workshop">
+<div>
+<i class="fas fa-tools"></i>
+                            콘텐츠 작업실                        </div>
+<i class="arrow fas fa-chevron-right"></i>
+</div>
+
+                            원고작성                        
+
+                            화자 변환기                        
+
+                            커뮤니티 검색 도구                        
+
+                            SRT 분리 도구                        
+</div>
+<div class="menu-section">
+<!-- 서브메뉴가 있는 경우 -->
+<div class="menu-title has-submenu" data-menu-id="group_community">
+<div>
+<i class="fas fa-users"></i>
+                            커뮤니티                        </div>
+<i class="arrow fas fa-chevron-right"></i>
+</div>
+
+                            공지사항                        
+
+                            실습자료                        
+
+                            교육자료                        
+
+                            유튜브문의                        
+
+                            프로그램문의                        
+</div>
+<div class="menu-section">
+<!-- 서브메뉴가 있는 경우 -->
+<div class="menu-title has-submenu" data-menu-id="group_guidebook">
+<div>
+<i class="fas fa-briefcase"></i>
+                            미큐 가이드북                        </div>
+<i class="arrow fas fa-chevron-right"></i>
+</div>
+
+                            미큐 칼럼                        
+
+                            실전 노하우                        
+</div>
+<div class="menu-section">
+<!-- 단독 메뉴 -->
+
+<div>
+<i class="fas fa-seedling"></i>
+                            우리의 성장 기록실                        </div>
+<span class="notification-badge">N</span>
+
+</div>
+<div class="menu-section">
+<!-- 단독 메뉴 -->
+
+<div>
+<i class="fas fa-trophy"></i>
+                            트로피룸                        </div>
+
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const header = document.getElementById('header');
+    
+    // 메뉴 섹션 토글 기능
+    const menuTitles = document.querySelectorAll('.tubelab-sidebar .menu-title.has-submenu');
+    const memberId = '250';
+    const sidebarStateKey = `sidebarState_${memberId}`;
+
+    // 페이지 로드 시 저장된 상태 복원
+    if (memberId) {
+        const savedState = localStorage.getItem(sidebarStateKey);
+        if (savedState) {
+            try {
+                const state = JSON.parse(savedState);
+                
+                // 먼저 모든 메뉴를 초기화 (PHP의 기본 상태 무시)
+                document.querySelectorAll('.menu-title.has-submenu').forEach(menu => {
+                    // data-menu-id가 없는 메뉴에 임시로 추가
+                    if (!menu.getAttribute('data-menu-id')) {
+                        const menuText = menu.textContent.trim().replace(/\s+/g, '_');
+                        menu.setAttribute('data-menu-id', 'menu_' + menuText);
+                    }
+                    
+                    menu.classList.remove('expanded');
+                    let sibling = menu.nextElementSibling;
+                    while (sibling && sibling.classList.contains('menu-item')) {
+                        sibling.style.display = 'none';
+                        sibling = sibling.nextElementSibling;
+                    }
+                });
+                
+                // 저장된 상태대로 복원
+                Object.keys(state.menus || {}).forEach(menuId => {
+                    const menuEl = document.querySelector(`[data-menu-id="${menuId}"]`);
+                    if (menuEl && state.menus[menuId]) {
+                        menuEl.classList.add('expanded');
+                        let sibling = menuEl.nextElementSibling;
+                        while (sibling && sibling.classList.contains('menu-item')) {
+                            sibling.style.display = 'block';
+                            sibling = sibling.nextElementSibling;
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('메뉴 상태 복원 오류:', e);
+            }
+        }
+    }
+
+    menuTitles.forEach(function(title) {
+        title.addEventListener('click', function() {
+            this.classList.toggle('expanded');
+            
+            // 다음 형제 요소들 중 menu-item 클래스를 가진 요소들을 토글
+            let sibling = this.nextElementSibling;
+            while (sibling && sibling.classList.contains('menu-item')) {
+                sibling.style.display = sibling.style.display === 'none' ? 'block' : 'none';
+                sibling = sibling.nextElementSibling;
+            }
+            
+            // 상태 저장 추가
+            if (memberId) {
+                const state = { menus: {} };
+                document.querySelectorAll('.menu-title.has-submenu').forEach(menu => {
+                    const menuId = menu.getAttribute('data-menu-id');
+                    if (menuId) {
+                        state.menus[menuId] = menu.classList.contains('expanded');
+                    }
+                });
+                localStorage.setItem(sidebarStateKey, JSON.stringify(state));
+            }
+        });
+    });
+    
+    // 전역 함수로 사이드바 상태 업데이트 함수 정의
+    window.updateLayoutForSidebar = function(isCollapsed) {
+        if (header) {
+            if (isCollapsed) {
+                header.classList.remove('sidebar-open');
+            } else {
+                header.classList.add('sidebar-open');
+            }
+        }
+        
+        if (isCollapsed) {
+            document.body.classList.remove('has-sidebar');
+            document.body.classList.add('sidebar-collapsed');
+        } else {
+            document.body.classList.add('has-sidebar');
+            document.body.classList.remove('sidebar-collapsed');
+        }
+        
+        localStorage.setItem('sidebarCollapsed', isCollapsed ? 'true' : 'false');
+        
+        const event = new CustomEvent('sidebarStateChange', { 
+            detail: { isCollapsed: isCollapsed } 
+        });
+        document.dispatchEvent(event);
+    };
+    
+    // 페이지 로드 시 저장된 사이드바 상태 확인
+    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (sidebar) {
+        if (sidebarCollapsed) {
+            sidebar.classList.add('collapsed');
+            if (header) header.classList.remove('sidebar-open');
+            document.body.classList.remove('has-sidebar');
+            document.body.classList.add('sidebar-collapsed');
+        } else {
+            sidebar.classList.remove('collapsed');
+            if (header) header.classList.add('sidebar-open');
+            document.body.classList.add('has-sidebar');
+            document.body.classList.remove('sidebar-collapsed');
+        }
+    }
+    
+    // 모바일 메뉴 닫기 버튼
+    const closeSidebarBtn = document.getElementById('closeMobileSidebarBtn');
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', function() {
+            if (sidebar) {
+                sidebar.classList.remove('active');
+            }
+        });
+    }
+    
+    // 메뉴 클릭 시 쿠키 업데이트 (새 글 알림용)
+    document.querySelectorAll('.menu-item, .menu-title').forEach(function(menuItem) {
+        menuItem.addEventListener('click', function(e) {
+            const featureCode = this.getAttribute('data-feature-code');
+            const href = this.href || '';
+            
+            // 수익인증 관련 메뉴 클릭 시
+            if (featureCode && (featureCode.toLowerCase().includes('profit') || 
+                featureCode.toLowerCase().includes('income') ||
+                href.includes('profit') || 
+                href.includes('income'))) {
+                
+                const memberId = '250';
+                if (memberId) {
+                    // 클릭 시점이 아닌, 실제 페이지 방문 시 쿠키 업데이트를 위해
+                    // 세션 스토리지에 플래그 저장
+                    sessionStorage.setItem('visitProfitPage', 'true');
+                }
+            }
+        });
+    });
+    
+    // 새 글 확인 주기적 업데이트 (선택사항 - 5분마다)
+        setInterval(function() {
+        // AJAX로 새 글 확인하거나 페이지 리로드
+        // location.reload();
+    }, 300000); // 5분
+        
+    // 검토 대기 미션 수 주기적 업데이트 (5분마다)
+    });
+</script>
+<!-- 메인 콘텐츠 -->
+<div class="main-content">
+<div class="content">
+<div class="container">
+<h1 class="section-title">튜브랩 대시보드</h1>
+<!-- 상단 카드 그리드 -->
+<div class="dashboard-grid">
+<!-- 노션 연동 카드 -->
+<div class="dashboard-card notion-card">
+
+<div class="notion-content">
+<div class="notion-icon">
+<!-- 이미지가 없을 경우 기본 아이콘 -->
+<span style="font-size: 60px;">📝</span>
+</div>
+<div class="notion-text">
+<h3>1기 수강생<br/> 학습 자료</h3>
+<p>노션 보러가기</p>
+<span class="notion-cta">
+                                            바로가기 <i class="fas fa-external-link-alt"></i>
+</span>
+</div>
+</div>
+
+</div>
+<!-- 메달 컬렉션 카드 -->
+<div class="dashboard-card">
+<h2 class="dashboard-card-title">
+<i class="fas fa-award"></i> 메달 컬렉션
+                                </h2>
+<div class="medal-collection">
+<button class="medal-button" data-medal="completion">
+<div class="medal-icon">🏆</div>
+<div class="medal-name">트로피</div>
+<div class="medal-count">0개</div>
+</button>
+<button class="medal-button" data-medal="gold">
+<div class="medal-icon">🥇</div>
+<div class="medal-name">금메달</div>
+<div class="medal-count">0개</div>
+</button>
+<button class="medal-button" data-medal="silver">
+<div class="medal-icon">🥈</div>
+<div class="medal-name">은메달</div>
+<div class="medal-count">0개</div>
+</button>
+<button class="medal-button" data-medal="bronze">
+<div class="medal-icon">🥉</div>
+<div class="medal-name">동메달</div>
+<div class="medal-count">0개</div>
+</button>
+<button class="medal-button" data-medal="copper">
+<div class="medal-icon">💮</div>
+<div class="medal-name">뱃지</div>
+<div class="medal-count">0개</div>
+</button>
+</div>
+<div class="medal-details-container">
+<!-- 금메달 상세 정보 -->
+<div class="medal-details" id="gold-details">
+<div class="medal-details-header">
+<span class="medal-details-title">🥇 금메달 획득 채널</span>
+<button class="close-details">×</button>
+</div>
+<p class="empty-medal-message">아직 금메달을 수령한 채널이 없습니다.</p>
+</div>
+<!-- 은메달 상세 정보 -->
+<div class="medal-details" id="silver-details">
+<div class="medal-details-header">
+<span class="medal-details-title">🥈 은메달 획득 채널</span>
+<button class="close-details">×</button>
+</div>
+<p class="empty-medal-message">아직 은메달을 수령한 채널이 없습니다.</p>
+</div>
+<!-- 동메달 상세 정보 -->
+<div class="medal-details" id="bronze-details">
+<div class="medal-details-header">
+<span class="medal-details-title">🥉 동메달 획득 채널</span>
+<button class="close-details">×</button>
+</div>
+<p class="empty-medal-message">아직 동메달을 수령한 채널이 없습니다.</p>
+</div>
+<!-- 완료 메달 상세 정보 -->
+<div class="medal-details" id="completion-details">
+<div class="medal-details-header">
+<span class="medal-details-title">🏆 학습 완료 채널</span>
+<button class="close-details">×</button>
+</div>
+<p class="empty-medal-message">아직 트로피를 수령한 채널이 없습니다.</p>
+</div>
+<!-- 뱃지 상세 정보 -->
+<div class="medal-details" id="copper-details">
+<div class="medal-details-header">
+<span class="medal-details-title">💮 최근 뱃지 획득 내역</span>
+<button class="close-details">×</button>
+</div>
+<p class="empty-medal-message">아직 획득한 뱃지가 없습니다.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 채널별 진행 상황 -->
+<div class="dashboard-card">
+<h2 class="dashboard-card-title">
+<i class="fas fa-chart-line"></i> 채널별 진행 상황
+                                    <p class="progress-guide"><br/>　각 채널에서 10개, 20개, 30개, 50개 영상을 학습하면 메달을 획득할 수 있어요!</p>
+<button class="completed-channels-button" id="completed-channels-btn">
+                                        학습 완료된 채널 <i class="fas fa-external-link-alt"></i>
+</button>
+</h2>
+<div class="empty-message">
+<p>아직 학습 중인 채널이 없습니다.</p>
+<p>채널 분석기를 통해 채널을 추가해보세요.<br/><br/></p>
+새 채널 분석하기
+</div>
+<!-- 완료된 채널 모달 -->
+<div class="modal" id="completed-channels-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h3>학습 완료된 채널</h3>
+<span class="close-modal">×</span>
+</div>
+<div class="modal-body">
+<div class="empty-message">
+<p>아직 학습 완료된 채널이 없습니다.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 최근 활동 내역 -->
+<div class="dashboard-card">
+<h2 class="dashboard-card-title">
+<i class="fas fa-history"></i> 최근 활동 내역
+                        </h2>
+<div class="empty-message">
+<p>아직 활동 내역이 없습니다.</p>
+<p>채널 분석을 시작해보세요.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 푸터 포함 -->
+<footer class="tubelab-footer">
+<div class="footer-content">
+<div class="footer-copyright">
+            Copyright © 2025. All rights reserved to 튜브랩        </div>
+<div class="footer-links">
+개인정보처리방침
+서비스이용약관
+사업자정보
+</div>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 사이드바가 있는지 확인하고 body에 클래스 추가
+        if (document.getElementById('sidebar')) {
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (sidebarCollapsed) {
+                document.body.classList.add('sidebar-collapsed');
+            } else {
+                document.body.classList.add('has-sidebar');
+            }
+        }
+        
+        // 사이드바 상태 변경 이벤트 리스너
+        document.addEventListener('sidebarStateChange', function(e) {
+            const isCollapsed = e.detail.isCollapsed;
+            
+            if (isCollapsed) {
+                document.body.classList.remove('has-sidebar');
+                document.body.classList.add('sidebar-collapsed');
+            } else {
+                document.body.classList.add('has-sidebar');
+                document.body.classList.remove('sidebar-collapsed');
+            }
+        });
+    });
+</script>
+<script>
+        // 전역 범위에 claimMedal 함수 정의
+        function claimMedal(channelId, medalType) {
+            // 메달 타입에 따른 이름 설정
+            let medalName = '';
+            switch(medalType) {
+                case 'bronze': medalName = '동메달'; break;
+                case 'silver': medalName = '은메달'; break;
+                case 'gold': medalName = '금메달'; break;
+                case 'completion': medalName = '트로피'; break;
+            }
+            
+            // 확인 창
+            if (!confirm(`${medalName}을(를) 수령하시겠습니까?`)) {
+                return;
+            }
+            
+            // AJAX 요청으로 메달 수령 처리
+            fetch('data/medal_claim.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `channel_id=${encodeURIComponent(channelId)}&medal_type=${encodeURIComponent(medalType)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message || `${medalName}을(를) 성공적으로 수령했습니다!`);
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert(data.message || '메달 수령 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('메달 수령 오류:', error);
+                alert('메달 수령 중 오류가 발생했습니다.');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 모달 요소
+            const modal = document.getElementById('completed-channels-modal');
+            const btn = document.getElementById('completed-channels-btn');
+            const closeBtn = document.querySelector('.close-modal');
+            
+            // 버튼 클릭 시 모달 열기
+            if (btn) {
+                btn.addEventListener('click', function() {
+                    modal.style.display = 'block';
+                });
+            }
+            
+            // 닫기 버튼 클릭 시 모달 닫기
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // 모달 외부 클릭 시 모달 닫기
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // 메달 버튼 클릭 이벤트
+            const medalButtons = document.querySelectorAll('.medal-button');
+            
+            medalButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const medalType = this.getAttribute('data-medal');
+                    const detailsElement = document.getElementById(medalType + '-details');
+                    
+                    // 모든 상세 정보 숨기기
+                    document.querySelectorAll('.medal-details').forEach(function(details) {
+                        details.style.display = 'none';
+                    });
+                    
+                    // 선택한 메달의 상세 정보 표시
+                    detailsElement.style.display = 'block';
+                });
+            });
+            
+            // 닫기 버튼 이벤트
+            const closeButtons = document.querySelectorAll('.close-details');
+            
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const detailsElement = this.closest('.medal-details');
+                    detailsElement.style.display = 'none';
+                });
+            });
+        });
+    </script>
+</body></html>
