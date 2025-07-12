@@ -1,0 +1,27 @@
+# Node modules
+client/node_modules/
+server/node_modules/
+
+# Build outputs
+client/dist/
+docs/*
+
+# Logs
+*.log
+npm-debug.log*
+
+# dotenv files
+*.env
+*.env.*
+
+# system files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Optional: OS-specific
+*.swp
+*.swo
