@@ -24,4 +24,27 @@ client/
 | Router | 페이지 이동 기능 (`react-router-dom`)                     |
 | 컴포넌트   | 기능 단위로 쪼갠 UI 조각들 (`<Navbar />`, `<LectureCard />`) |
 
-
+## src폴더
+src/
+├── App.jsx                      # 라우터 or Layout을 감싸는 진입점
+├── pages/
+│   └── Dashboard.jsx           # 대시보드 페이지 (페이지 단위만 담당)
+├── layout/
+│   ├── AppLayout.jsx           # Header + Sidebar + children
+│   ├── Header.jsx
+│   └── Sidebar.jsx
+├── components/
+│   ├── cards/
+│   │   ├── NotionCard.jsx
+│   │   └── MedalCard.jsx
+│   ├── modals/
+│   │   ├── NotificationModal.jsx
+│   │   ├── MyPostsModal.jsx
+│   │   └── CompletedModal.jsx
+│   └── MedalDetails.jsx
+├── hooks/
+│   └── useBodyClass.js         # body class 핸들링
+├── constants/
+│   └── medals.js               # 메달 관련 데이터/이름/아이콘
+├── styles/
+│   └── legacy.css
