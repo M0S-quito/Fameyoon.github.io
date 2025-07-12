@@ -25,26 +25,26 @@ client/
 | 컴포넌트   | 기능 단위로 쪼갠 UI 조각들 (`<Navbar />`, `<LectureCard />`) |
 
 ## src폴더
-src/
-├── App.jsx                      # 라우터 or Layout을 감싸는 진입점
-├── pages/
-│   └── Dashboard.jsx           # 대시보드 페이지 (페이지 단위만 담당)
-├── layout/
-│   ├── AppLayout.jsx           # Header + Sidebar + children
-│   ├── Header.jsx
-│   └── Sidebar.jsx
-├── components/
-│   ├── cards/
-│   │   ├── NotionCard.jsx
-│   │   └── MedalCard.jsx
-│   ├── modals/
-│   │   ├── NotificationModal.jsx
-│   │   ├── MyPostsModal.jsx
-│   │   └── CompletedModal.jsx
-│   └── MedalDetails.jsx
-├── hooks/
-│   └── useBodyClass.js         # body class 핸들링
-├── constants/
-│   └── medals.js               # 메달 관련 데이터/이름/아이콘
-├── styles/
-│   └── legacy.css
+```plaintext
+/src
+│
+├── /assets
+│   └── main.css              ← 기존 CSS 전체 복붙
+│
+├── /components
+│   ├── Header.jsx            ← 상단 헤더 (알림 버튼, 프로필 포함)
+│   ├── Sidebar.jsx           ← 좌측 사이드바
+│   ├── ModalMyPosts.jsx      ← '내가 쓴 글' 모달
+│   ├── ModalNotifications.jsx← 알림 모달
+│   └── MedalModal.jsx        ← 메달 관련 모달 (optional)
+│
+├── /hooks
+│   └── useSidebar.js         ← 사이드바 토글 상태 훅 (localStorage 연동)
+│
+├── /pages
+│   └── Dashboard.jsx         ← 대시보드 본문 전체
+│
+├── App.jsx                   ← 루트 컴포넌트
+├── main.jsx                  ← 엔트리 (ReactDOM.render 등)
+└── index.html                ← Vite용 템플릿 (public 아님!)
+```
