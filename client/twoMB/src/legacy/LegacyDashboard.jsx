@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './legacy.css'
 
 export default function LegacyDashboard() {
@@ -13,6 +13,13 @@ export default function LegacyDashboard() {
       setSelectedMedal(medal)
     }
   }
+
+  useEffect(() => {
+    document.body.classList.add('has-sidebar')
+    return () => {
+      document.body.classList.remove('has-sidebar')
+    }
+  }, [])
 
   return (
     <div className="app-container">
